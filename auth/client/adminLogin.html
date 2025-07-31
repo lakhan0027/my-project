@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #3a6186, #89253e);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 400px;
+      margin: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border 0.3s;
+      margin: 0;
+    }
+
+    input:focus {
+      border-color: #3a6186;
+      outline: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .forgot-link {
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+
+    .forgot-link a {
+      color: #3a6186;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .forgot-link a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 40%;
+      margin-left: 110px;
+      padding: 12px;
+      background-color: #3a6186;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2d4e6e;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <form id="loginForm" action="../server/adminLogin.php" method="POST" onsubmit="return validateForm()">
+      <h2>Admin Login</h2>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Enter email">
+        <span class="error" id="emailError"></span>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password">
+        <span class="error" id="passwordError"></span>
+      </div>
+
+      <div class="forgot-link">
+        <a href="updateAdminData.html">Forgot password?</a>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+<script>
+  function validateForm() {
+    let isValid = true;
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    // Reset error messages
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Validate email
+    if (email === "") {
+      emailError.textContent = "Email is required";
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      emailError.textContent = "Enter a valid email address";
+      isValid = false;
+    }
+
+    // Validate password
+    if (password === "") {
+      passwordError.textContent = "Password is required";
+      isValid = false;
+    } else if (password.length < 6) {
+      passwordError.textContent = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    return isValid;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+[2025-07-28 10:03:44] DB Connection Error: SQLSTATE[HY000] [1049] Unknown database 'lstm'
+[2025-07-28 10:05:18] DB Connection Error: SQLSTATE[HY000] [1049] Unknown database 'lstm'

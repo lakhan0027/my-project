@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Information Form</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 40px 0;
+    padding: 0;
+    position: relative;
+   
+  }
+
+  /* Blurred background image */
+  body::before {
+    content: "";
+    
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.2;
+  }
+
+.container {
+ 
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+
+  /* ✅ You control image size here */
+  width: 750px;    /* change this */
+  height: 750px;   /* and this */
+
+  top: 50%;        /* vertical position */
+  left: 50%;       /* horizontal position */
+  transform: translate(-50%, -50%);
+
+  background-image: url('image/logo.png');
+  background-size: 100% 100%;  /* ✅ this ensures image resizes to width/height */
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  opacity: 0.07;
+  filter: blur(1px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .row {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #444;
+    }
+
+ input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea,
+select {
+  padding: 12px;
+  border: 1.5px solid #666;  /* ✅ lighter than black, darker than default */
+  border-radius: 6px;
+  font-size: 15px;
+  min-width: 250px;
+}
+
+/* Optional focus style */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #555;  /* slightly darker on focus */
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+    textarea {
+      resize: vertical;
+    }
+
+    .qualification-section {
+      margin-bottom: 30px;
+    }
+
+    .qualification-box {
+      border: 1px solid #b3afaf;
+      padding: 20px;
+      border-radius: 6px;
+     
+      margin-bottom: 20px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 30px;
+      margin-top: 10px;
+    }
+
+    .submit-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .submit-btn {
+      background-color: #1089ff;
+      color: white;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-block;
+      transition: 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #006fdc;
+    }
+
+    select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  min-width: 250px;
+   border: 1.5px solid #666; 
+}
+
+
+
+/* Mobile Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .container {
+    padding: 25px 15px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    min-width: 100%;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* Extra Small Devices (max-width: 575px) */
+@media (max-width: 575px) {
+  .container {
+    padding: 20px 10px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    min-width: 100%;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  textarea,
+  select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Personal Information Form</h2>
+   <form id="infoForm" method="POST" action="registration.php" onsubmit="return validateForm()">
+  
+  <!-- Hidden ID field (for editing/updating, optional) -->
+  <input type="hidden" name="id" id="id">
+
+  <!-- First & Last Name -->
+  <div class="row">
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" name="first_name" id="first_name" required minlength="2">
+    </div>
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text" name="last_name" id="last_name" required minlength="2">
+    </div>
+  </div>
+
+  <!-- Mobile & Email -->
+  <div class="row">
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input type="text" name="phone_number" id="phone_number" oninput="autoAddPrefix(this)" required>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" id="email" required>
+    </div>
+  </div>
+
+  <!-- Father's Info -->
+  <div class="row">
+    <div class="form-group">
+      <label>Father's Name</label>
+      <input type="text" name="father_name" id="father_name" required minlength="2">
+    </div>
+    <div class="form-group">
+      <label>Father's Occupation</label>
+      <input type="text" name="father_occupation" id="father_occupation" required minlength="2">
+    </div>
+  </div>
+
+  <!-- 10th Qualification -->
+  <div class="qualification-box">
+    <div class="row">
+      <div class="form-group">
+        <label>10th : Board</label>
+        <input type="text" name="tenth_board" id="tenth_board" required>
+      </div>
+      <div class="form-group">
+        <label>Percentage</label>
+        <input type="text" name="tenth_percentage" id="tenth_percentage" oninput="addPercentage(this)" required>
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" name="tenth_year" id="tenth_year" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12th Qualification -->
+  <div class="qualification-box">
+    <div class="row">
+      <div class="form-group">
+        <label>12th : Board</label>
+        <input type="text" name="twelfth_board" id="twelfth_board" required>
+      </div>
+      <div class="form-group">
+        <label>Percentage</label>
+        <input type="text" name="twelfth_percentage" id="twelfth_percentage" oninput="addPercentage(this)" required>
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" name="twelfth_year" id="twelfth_year" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graduation Qualification -->
+  <div class="qualification-box">
+    <div class="row">
+      <div class="form-group">
+        <label>Graduation : University</label>
+        <input type="text" name="graduation_university" id="graduation_university" required>
+      </div>
+      <div class="form-group">
+        <label>Percentage</label>
+        <input type="text" name="graduation_percentage" id="graduation_percentage" oninput="addPercentage(this)" required>
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" name="graduation_year" id="graduation_year" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- Passport -->
+  <div class="form-group" style="margin-bottom: 30px;">
+    <label>Do you have a Passport?</label>
+    <select name="passport" id="passport" required>
+      <option value="">Select</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+  </div>
+
+  <!-- Description -->
+  <div class="form-group" style="margin-bottom: 25px;">
+    <label>Description</label>
+    <textarea name="description" id="description" rows="4" required></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="submit-container">
+    <button type="submit" class="submit-btn">Submit</button>
+  </div>
+</form>
+
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+  
+  function validateForm() {
+    const mobile = document.getElementById("mobile").value.replace("+91", "").trim();
+    if (!/^\d{10}$/.test(mobile)) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return false;
+    }
+
+    const percentages = [
+      stripPercentage(document.getElementById("tenthPercent").value),
+      stripPercentage(document.getElementById("twelfthPercent").value),
+      stripPercentage(document.getElementById("gradPercent").value)
+    ];
+
+    for (let percent of percentages) {
+      if (!/^\d{1,2}(\.\d{1,2})?$/.test(percent) || parseFloat(percent) > 100) {
+        alert("Please enter valid percentages (0–100).");
+        return false;
+      }
+    }
+
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const fatherName = document.getElementById("fatherName").value.trim();
+    const fatherOcc = document.getElementById("fatherOcc").value.trim();
+
+    if (firstName.length < 2 || lastName.length < 2 || fatherName.length < 2 || fatherOcc.length < 2) {
+      alert("First Name, Last Name, Father's Name, and Occupation must be at least 2 characters.");
+      return false;
+    }
+
+    // ✅ All validations passed
+    alert("Form submitted successfully!");
+    return true;
+  }
+
+  function autoAddPrefix(input) {
+    if (!input.value.startsWith("+91")) {
+      input.value = "+91" + input.value.replace(/[^0-9]/g, "").replace(/^91/, "");
+    }
+  }
+
+  function addPercentage(input) {
+    let value = input.value.replace(/[^0-9.]/g, '');
+
+    if (value.includes('.')) {
+      const parts = value.split('.');
+      parts[1] = parts[1].slice(0, 2);
+      value = parts[0] + '.' + parts[1];
+    }
+
+    if (parseFloat(value) > 100) value = '100';
+
+    input.value = value ? value + '%' : '';
+  }
+
+  function stripPercentage(value) {
+    return value.replace('%', '');
+  }
+
+
+
+   
+  </script>
+</body>
+</html>
